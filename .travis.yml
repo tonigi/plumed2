@@ -85,13 +85,15 @@ matrix:
       directories:
       - $HOME/.macports-ci-ccache
 # linux conda package
-  - os: linux
+  - name: Conda build, linux
+    os: linux
     if: branch =~ ^test- OR tag IS present OR type IN(pull_request)
     dist: trusty
     sudo: required
     env: PLUMED_CONDA=yes
 # osx conda package
-  - os: osx
+  - name: Conda build, MacOS
+    os: osx
     if: branch =~ ^test- OR tag IS present OR type IN(pull_request)
     osx_image: xcode8.3
     env: PLUMED_CONDA=yes
@@ -120,7 +122,7 @@ install:
   - export PLUMED_NUM_THREADS=2
   - ./.travis/check.log valgrind || VALGRIND=no
 # update packages
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && test -z "$PLUMED_MACPORTS" ; then
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && test -n "$PLUMED_CXX" ; then
       brew update > /dev/null ;
       brew install ccache ;
       export PLUMED_MPIRUN="mpirun --oversubscribe" ;
@@ -220,8 +222,12 @@ script:
       done
     fi
 
+# set CONDA_VERSION to TRAVIS_TAG, if available
+  - if test -n "${TRAVIS_TAG}" ; then CONDA_VERSION="${TRAVIS_TAG//-/_}" ; else CONDA_VERSION=unspecified ; fi
+# remove initial v - only makes sense with official releases
+  - CONDA_VERSION="${CONDA_VERSION#v}"
 # build conda package
-  - if test -n "$PLUMED_CONDA" ; then make -C conda ; fi
+  - if test -n "$PLUMED_CONDA" ; then VERSION="$CONDA_VERSION" make -C conda ; fi
 
 # build docker container
   - if test "$PLUMED_DOCKER" = yes ; then make -C docker ; fi
@@ -263,3 +269,5 @@ after_success:
   - if test "$MAKEDOC" == yes ; then ./.travis/push doc ; fi 
   - if test "$MAKECOVERAGE" == yes ; then ./.travis/push coverage ; fi 
   - if test "$MAKECOVERAGE" == yes ; then bash <(curl -s https://codecov.io/bash) > /dev/null ; fi
+# upload conda package
+  - if test -n "$PLUMED_CONDA" && test -n "$TRAVIS_TAG" ; then VERSION="$CONDA_VERSION" make -C conda upload ; fi

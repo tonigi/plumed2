@@ -1,5 +1,5 @@
-{% set name = "plumed2" %}
-{% set version = "2.5" %}
+{% set name = "plumed" %}
+{% set version = environ['VERSION'] %}
 
 package:
   name: {{ name|lower }}
@@ -42,7 +42,6 @@ requirements:
   host:
     - python
     - pip
-    - numpy
     - cython
     - zlib
     - m2w64-binutils  # [win]
@@ -51,7 +50,6 @@ requirements:
 
   run:
     - python
-    - {{ pin_compatible('numpy') }}    
     - zlib
 
 test:
@@ -69,7 +67,7 @@ about:
   license: LGPL
   license_file: COPYING.LESSER
   summary: 'Free energy calculations in molecular systems'
-  description: |
+  description: >
     PLUMED is an open source library for free energy calculations in
     molecular systems which works together with some of the most
     popular molecular dynamics engines.
