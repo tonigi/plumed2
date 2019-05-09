@@ -20,7 +20,7 @@ tar xzf xdrfile-1.1.4.tar.gz
 condaldflags="$BUILD_PREFIX/lib/libz.a $BUILD_PREFIX/lib/libz$SHLIB_EXT \
 	      $BUILD_PREFIX/lib/libxdrfile.a $BUILD_PREFIX/lib/libxdrfile$SHLIB_EXT"
 
-./configure --prefix=$PREFIX --enable-shared --disable-python --disable-external-lapack --disable-external-blas LDFLAGS="-L$BUILD_PREFIX/lib"
+./configure --prefix=$PREFIX --enable-shared --disable-python --disable-external-lapack --disable-external-blas LDFLAGS="-L$BUILD_PREFIX/lib -lz -lxdrfile"
 make -j4
 make install
 
