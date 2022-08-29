@@ -6,13 +6,33 @@ on:
 
 
 jobs:
-  w64:
+  w64-conda-build:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v2
-#      with:
-#        miniforge-version: latest
+      with:
+        miniforge-version: latest
     - run: conda info
     - run: conda install conda-build
     - run: conda build conda/w64
+    - uses: actions/upload-artifact@v3
+      with:
+        name: plumed-master.tar.bz2
+        path: C:\Miniconda3\envs\test\conda-bld\win-64\plumed-2.8-testing.tar.bz2
+
+  w64-regtest:
+    needs: w64-conda-build
+    runs-on: windows-latest
+    - uses: actions/checkout@v2
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-version: latest
+    - run: conda info
+    - uses: actions/download-artifact@v3
+      with:
+        name: plumed-master.tar.bz2
+    - run: conda install plumed-master.tar.bz2
+
+# TODO REGTEST
+    
