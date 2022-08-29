@@ -13,4 +13,4 @@ jobs:
     - uses: conda-incubator/setup-miniconda@v2
     - run: conda info
     - run: conda install conda-build
-    - run: conda build w64/recipe
+    - run: conda build conda/w64
