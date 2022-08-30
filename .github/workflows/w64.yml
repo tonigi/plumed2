@@ -58,7 +58,7 @@ jobs:
 #    - run: conda install plumed-master.tar.bz2
     - run: conda install -c tonigi/label/ci plumed 
     - run: conda install -y -c conda-forge m2-base make m2-sed m2-diffutils
-    - run: echo PLUMED_ROOT=%CONDA_PREFIX%\lib\plumed >> %GITHUB_ENV
+    - run: echo PLUMED_ROOT=%CONDA_PREFIX%\lib\plumed >> %GITHUB_ENV%
     - run: make -C regtest\basic
 #      env: 
 #        PLUMED_ROOT: C:\Miniconda3\lib\plumed
