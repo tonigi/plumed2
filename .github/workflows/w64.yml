@@ -33,7 +33,13 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: plumed-master.tar.bz2
+    - run: 7z x plumed-master.tar.bz2.zip
     - run: conda install plumed-master.tar.bz2
+    - run: conda install -y -c conda-forge m2-base make m2-sed m2-diffutils
+    - run: make -C regtest\basic
+      env: 
+        PLUMED_ROOT: C:\Miniconda3\lib\plumed
+    
 
 # TODO REGTEST
     
