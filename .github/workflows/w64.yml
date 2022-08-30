@@ -58,9 +58,10 @@ jobs:
 #    - run: conda install plumed-master.tar.bz2
     - run: conda install -c tonigi/label/ci plumed 
     - run: conda install -y -c conda-forge m2-base make m2-sed m2-diffutils
+    - run: set PLUMED_ROOT=%CONDA_PREFIX%
     - run: make -C regtest\basic
-      env: 
-        PLUMED_ROOT: C:\Miniconda3\lib\plumed
+#      env: 
+#        PLUMED_ROOT: C:\Miniconda3\lib\plumed
     - run: |
        7z a -r regtests.zip report.txt
     - uses: actions/upload-artifact@v3
