@@ -160,6 +160,39 @@ class TestPyCV(unittest.TestCase):
 
                     np.testing.assert_almost_equal(cvPy, step + 1.0, decimal=4)
 
+    def test_loadAmodule_and_persistData(self):
+        """This test loads a module that is a directory and stores some data within plumed"""
+        with cd(THIS_DIR):
+            os.environ["PLUMED_MAXBACKUP"] = "0"
+            traj, num_frames, num_atoms, box, virial, masses, forces, charges = (
+                setUpTraj("trajnewFrameNewAtom.xyz")
+            )
+            plmd = preparePlumed(num_atoms)
+
+            cvPy = create_plumed_var(
+                plmd,
+                "cvPy",
+                "PYCVINTERFACE ATOMS=@mdatoms IMPORT=pycvPersistentData CALCULATE=pydist INIT=pyinit",
+            )
+
+            plmd.cmd("readInputLine", "PRINT FILE=colvar.out ARG=*")
+
+            # Now analyze the trajectory
+            for step in range(0, num_frames):
+                plmd.cmd("setStep", step)
+                plmd.cmd("setBox", box)
+                plmd.cmd("setMasses", masses)
+                plmd.cmd("setCharges", charges)
+                plmd.cmd("setPositions", traj[step])
+                plmd.cmd("setForces", forces)
+                plmd.cmd("setVirial", virial)
+                plmd.cmd("calc")
+                # this cv sums the number of the step till now:
+                # to future me: "//" is integer (floor) division
+                np.testing.assert_almost_equal(
+                    cvPy, ((step) * (step + 1)) // 2, decimal=4
+                )
+
 
 if __name__ == "__main__":
     # Output to four decimal places only

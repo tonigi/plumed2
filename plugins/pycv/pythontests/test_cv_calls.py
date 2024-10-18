@@ -94,9 +94,12 @@ class TestPyCV(unittest.TestCase):
                 "traj.xyz"
             )
             plmd = preparePlumed(num_atoms)
-            #atoms=4 but the module choses 1
+            # atoms=4 but the module choses 1
             cvPy = create_plumed_var(
-                plmd, "cvPy", "PYCVINTERFACE ATOMS=4 IMPORT=justPrepare PREPARE=plumedPrepare")
+                plmd,
+                "cvPy",
+                "PYCVINTERFACE ATOMS=4 IMPORT=justPrepare PREPARE=plumedPrepare",
+            )
             plmd.cmd("readInputLine", "PRINT FILE=colvar.out ARG=*")
             # Open an output file
 
@@ -112,8 +115,6 @@ class TestPyCV(unittest.TestCase):
             plmd.cmd("calc")
 
             np.testing.assert_almost_equal(cvPy, 5.0, decimal=4)
-
-
 
 
 if __name__ == "__main__":
