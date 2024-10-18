@@ -19,6 +19,6 @@ check_standalone: pycv_here
 #just in case  pytest is still not installed we install it before the tests
 check_python: pycv_here
 	pip install pytest
-	pytest
+	pytest -v
 
 check: check_standalone check_python

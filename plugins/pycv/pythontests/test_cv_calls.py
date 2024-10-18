@@ -8,7 +8,7 @@ import os
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestPyCV(unittest.TestCase):
+class TestPyCVCalls(unittest.TestCase):
     def test_INIT(self):
         with cd(THIS_DIR):
             os.environ["PLUMED_MAXBACKUP"] = "0"

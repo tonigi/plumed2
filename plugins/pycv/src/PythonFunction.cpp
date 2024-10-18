@@ -120,6 +120,7 @@ PythonFunction::PythonFunction(const ActionOptions&ao):
   Function(ao),
   ActionWithPython(ao) {
   try {
+    py::gil_scoped_acquire gil;
     //Loading the python module
     std::string import;
     parse("IMPORT",import);
@@ -205,6 +206,7 @@ PythonFunction::PythonFunction(const ActionOptions&ao):
 // calculator
 void PythonFunction::calculate() {
   try {
+    py::gil_scoped_acquire gil;
     // Call the function
     py::object r = pyCalculate(this);
     if(getNumberOfComponents()>1) {		// MULTIPLE NAMED COMPONENTS
