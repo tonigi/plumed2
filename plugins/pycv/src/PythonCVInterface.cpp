@@ -643,6 +643,7 @@ void PythonCVInterface::prepare() {
 void PythonCVInterface::update() {
   try {
     if(hasUpdate) {
+      py::gil_scoped_acquire gil;
       py::dict updateDict=pyUpdate(this);
       //See what to do here
     }
