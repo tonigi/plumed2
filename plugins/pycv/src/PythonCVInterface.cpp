@@ -422,6 +422,7 @@ PythonCVInterface::PythonCVInterface(const ActionOptions&ao) ://the catch only a
   PLUMED_COLVAR_INIT(ao),
   ActionWithPython(ao) {
   try {
+    py::gil_scoped_acquire gil;
     //Loading the python module
     std::string import;
     parse("IMPORT",import);
@@ -612,6 +613,7 @@ void PythonCVInterface::prepare() {
       }
     }
     if (hasPrepare) {
+      py::gil_scoped_acquire gil;
       py::dict prepareDict = pyPrepare(this);
       if (prepareDict.contains("setAtomRequest")) {
         //should I use "interpretAtomList"?
@@ -657,6 +659,7 @@ void PythonCVInterface::calculate() {
         nl->update(getPositions());
       }
     }
+    py::gil_scoped_acquire gil;
     // Call the function
     py::object r = pyCalculate(this);
     if(getNumberOfComponents()>1) {		// MULTIPLE NAMED COMPONENTS
