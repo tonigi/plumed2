@@ -5,11 +5,11 @@ all: pycv_here
 
 pycv_here: src/*.cpp src/*.h src/pycv/*.py
 	@echo installing pycv
-	pip install .
+	pip3 install .
 	touch $@
 
 clean:
-	pip uninstall pycv
+	pip3 uninstall pycv
 	rm -fv pycv_here
 
 check_standalone: pycv_here
@@ -18,7 +18,7 @@ check_standalone: pycv_here
 
 #just in case  pytest is still not installed we install it before the tests
 check_python: pycv_here
-	pip install pytest
+	pip3 install pytest
 	pytest -v
 
 check: check_standalone check_python
