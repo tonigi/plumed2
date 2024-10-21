@@ -24,7 +24,7 @@ if(NOT Plumed_FOUND)
     message(STATUS "plumed not found via pkgconfig, trying executable")
 
     execute_process(
-      COMMAND plumed info --include-dir
+      COMMAND plumed --no-mpi info --include-dir
       RESULT_VARIABLE PLUMED_EXECUTABLE
       OUTPUT_QUIET ERROR_QUIET)
     if(PLUMED_EXECUTABLE EQUAL 0)
@@ -34,7 +34,7 @@ if(NOT Plumed_FOUND)
 
       message(STATUS "Configuring plumed from executable")
       execute_process(
-        COMMAND plumed info --include-dir
+        COMMAND plumed --no-mpi info --include-dir
         OUTPUT_VARIABLE Plumed_INCLUDEDIR
         OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -42,7 +42,7 @@ if(NOT Plumed_FOUND)
           ${Plumed_INCLUDEDIR}
           CACHE INTERNAL "plumed include dir")
       execute_process(
-        COMMAND plumed info --configuration
+        COMMAND plumed --no-mpi info --configuration
         OUTPUT_VARIABLE Plumed_CONFIG
         OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -70,7 +70,7 @@ if(NOT Plumed_FOUND)
           ${Plumed_CPP_FLAGS}
           CACHE INTERNAL "plumed Definitions flags")
 
-      execute_process(COMMAND plumed config -q has mpi
+      execute_process(COMMAND plumed --no-mpi config -q has mpi
                       RESULT_VARIABLE Plumed_WITH_MPI)
       if(Plumed_WITH_MPI EQUAL 0)
         set(Plumed_HAS_MPI
