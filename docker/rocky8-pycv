@@ -1,6 +1,6 @@
 FROM plumed:rocky8
 
-RUN source /etc/bashrc \
+RUN . ./.bashrc \
  && module load mpi \
  && cd plumed2 \
  && source ./sourceme.sh \
