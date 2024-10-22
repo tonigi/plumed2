@@ -15,5 +15,6 @@ RUN source /etc/bashrc \
  && cd plumed2 \
  && source ./sourceme.sh \
  && cd plugins/pycv \
+ && ./configurePyCV.sh \
  && ln -s $(realpath ../../regtest/scripts) ./regtest/scripts \
  && make check
