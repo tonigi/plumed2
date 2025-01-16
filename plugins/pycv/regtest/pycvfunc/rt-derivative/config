@@ -15,7 +15,7 @@ plumed_regtest_before() {
         PLUMED_PYTHON_BIN=python
     fi
     pycvpath=$($PLUMED_PYTHON_BIN -m pycv)
-    sed -i "s%@pycvpath@%${pycvpath}%g" plumed.dat
+    sed -i.bak "s%@pycvpath@%${pycvpath}%g" plumed.dat
 }
 
 plumed_custom_skip() {
