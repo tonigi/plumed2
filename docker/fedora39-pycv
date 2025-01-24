@@ -16,5 +16,4 @@ RUN source /etc/bashrc \
  && source ./sourceme.sh \
  && cd plugins/pycv \
  && ./configurePyCV.sh \
- && ln -s $(realpath ../../regtest/scripts) ./regtest/scripts \
  && make check
